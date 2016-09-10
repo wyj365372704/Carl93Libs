@@ -1,0 +1,10 @@
+<resources>
+    <string name="app_name">Carl93Libs</string>
+
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+
+    <string name="action_settings">Settings</string>
+    <string name="nav_bar_desc">I am carl 93</string>
+    <string name="email">carlwu93@gmail.com</string>
+</resources>
