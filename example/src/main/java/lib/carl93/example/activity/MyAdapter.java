@@ -16,29 +16,40 @@ import lib.carl93.example.R;
 /**
  * Created by Carl on 2016-09-10 010.
  */
-public class MyAdapter extends RecyclerView.Adapter<MyAdapter.MyViewHolder> {
+public class MyAdapter extends RecyclerView.Adapter<MyAdapter.MyViewHolder> implements View.OnClickListener {
     private List<ItemEntity> data;
     private Context mContext;
+    private OnRecyclerViewItemClickListener itemClickListener;
 
-    public MyAdapter(Context mContext, List<ItemEntity> data) {
+    public MyAdapter(Context mContext, List<ItemEntity> data,OnRecyclerViewItemClickListener itemClickListener) {
         this.data = data;
         this.mContext = mContext;
+        this.itemClickListener = itemClickListener;
     }
 
     @Override
     public MyViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        return new MyViewHolder(LayoutInflater.from(mContext).inflate(R.layout.item_view, parent,false));
+        View view = LayoutInflater.from(mContext).inflate(R.layout.item_view, parent,false);
+        view.setOnClickListener(this);
+        return new MyViewHolder(view);
     }
 
     @Override
     public void onBindViewHolder(MyViewHolder holder, int position) {
         holder.mTitleTextView.setText(data.get(position).getTitle());
         holder.mDescTextView.setText(data.get(position).getDesc());
+        holder.itemView.setTag(position);
     }
 
     @Override
     public int getItemCount() {
         return null == data ? 0 : data.size();
+    }
+
+    @Override
+    public void onClick(View v) {
+        if(itemClickListener!=null)
+            itemClickListener.onItemClick((Integer) v.getTag());
     }
 
     class MyViewHolder extends RecyclerView.ViewHolder {
@@ -50,4 +61,8 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.MyViewHolder> {
             mDescTextView = (TextView) itemView.findViewById(R.id.item_desc_tv);
         }
     }
+    public interface OnRecyclerViewItemClickListener {
+        void onItemClick(int position);
+    }
+
 }

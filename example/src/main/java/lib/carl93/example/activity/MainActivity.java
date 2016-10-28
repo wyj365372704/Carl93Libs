@@ -1,5 +1,6 @@
 package lib.carl93.example.activity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
@@ -27,7 +28,7 @@ import lib.carl93.example.R;
 
 @EActivity
 public class MainActivity extends AppCompatActivity
-        implements NavigationView.OnNavigationItemSelectedListener {
+        implements NavigationView.OnNavigationItemSelectedListener, MyAdapter.OnRecyclerViewItemClickListener {
     @ViewById(R.id.rv)
     RecyclerView mRecyclerView;
     private MyAdapter myAdapter;
@@ -116,13 +117,25 @@ public class MainActivity extends AppCompatActivity
         return true;
     }
 
+    @Override
+    public void onItemClick(int position) {
+        Intent intent = null;
+        switch (position) {
+            case 0:
+                intent = new Intent(this, OkHttpActivity_.class);
+                break;
+        }
+        startActivity(intent);
+    }
+
     @AfterViews
     void init() {
         data = new ArrayList<>();
-        data.add(new ItemEntity("title1", "desc1"));
-        myAdapter = new MyAdapter(this, data);
+        data.add(new ItemEntity("OKHttp", "OKHttp"));
 
+        myAdapter = new MyAdapter(this, data, this);
         mRecyclerView.setAdapter(myAdapter);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(this));
     }
+
 }
